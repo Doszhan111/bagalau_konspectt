@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Білім беруді бағалау — Емтихан конспекті</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --border: #1e2d40;
+    --accent: #00d4ff;
+    --accent2: #ff6b35;
+    --accent3: #a8ff78;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --tag-bg: #1a2540;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-badge {
+    background: var(--accent);
+    color: #000;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .header h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.3px;
+  }
+
+  .header p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 10px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 600;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px 20px;
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-orange { border-left: 3px solid var(--accent2); }
+  .card-green { border-left: 3px solid var(--accent3); }
+
+  .card h3 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .card.card-orange h3 { color: var(--accent2); }
+  .card.card-green h3 { color: var(--accent3); }
+
+  .card p { font-size: 12px; color: var(--text); margin-bottom: 4px; }
+
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 2px 2px 2px 0;
+  }
+
+  .tag.orange { color: var(--accent2); }
+  .tag.green { color: var(--accent3); }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+    font-size: 11px;
+  }
+
+  .comparison-table th {
+    background: var(--tag-bg);
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    padding: 8px 10px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-size: 10px;
+    letter-spacing: 0.3px;
+  }
+
+  .comparison-table td {
+    padding: 7px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+
+  .comparison-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  .formula-box {
+    background: #0d1117;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .formula-box .formula-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .formula-box .formula {
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .formula-box .formula-desc {
+    font-size: 11px;
+    color: var(--text);
+    margin-top: 6px;
+  }
+
+  .level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin: 2px;
+    font-weight: 600;
+  }
+
+  .level-1 { background: rgba(0,212,255,0.15); color: var(--accent); border: 1px solid var(--accent); }
+  .level-2 { background: rgba(255,107,53,0.15); color: var(--accent2); border: 1px solid var(--accent2); }
+  .level-3 { background: rgba(168,255,120,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+
+  .key-term {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  .key-term .term {
+    background: var(--tag-bg);
+    color: var(--accent);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    padding: 7px 10px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .key-term .def {
+    padding: 7px 10px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .alert {
+    background: rgba(255,107,53,0.1);
+    border: 1px solid var(--accent2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+
+  .alert .alert-title {
+    color: var(--accent2);
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 16px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bloom-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .bloom-item {
+    flex: 1;
+    min-width: 90px;
+    background: var(--tag-bg);
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  .bloom-item .bloom-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .bloom-item .bloom-name {
+    font-size: 10px;
+    margin-top: 3px;
+    color: var(--muted);
+  }
+
+  .bloom-item .bloom-example {
+    font-size: 9px;
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  .vs-box {
+    display: grid;
+    grid-template-columns: 1fr 24px 1fr;
+    gap: 0;
+    align-items: stretch;
+    margin-bottom: 12px;
+  }
+
+  .vs-left { background: rgba(0,212,255,0.05); border: 1px solid var(--accent); border-radius: 8px 0 0 8px; padding: 12px; }
+  .vs-right { background: rgba(255,107,53,0.05); border: 1px solid var(--accent2); border-left: none; border-radius: 0 8px 8px 0; padding: 12px; }
+  .vs-center { display: flex; align-items: center; justify-content: center; background: var(--surface); font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 10px; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .vs-left h4 { color: var(--accent); font-size: 11px; font-family: 'IBM Plex Mono', monospace; margin-bottom: 7px; }
+  .vs-right h4 { color: var(--accent2); font-size: 11px; font-family: 'IBM Plex Mono', monospace; margin-bottom: 7px; }
+
+  li { margin-left: 14px; margin-bottom: 3px; font-size: 11px; line-height: 1.45; }
+
+  .code-snippet {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: #a8ff78;
+    margin-bottom: 8px;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+  }
+
+  strong { color: var(--accent); }
+  em { color: var(--accent2); }
+
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .key-term { grid-template-columns: 1fr; }
+    .vs-box { grid-template-columns: 1fr; }
+    .vs-left { border-radius: 8px 8px 0 0; }
+    .vs-right { border-left: 1px solid var(--accent2); border-top: none; border-radius: 0 0 8px 8px; }
+    .vs-center { display: none; }
+  }
+
+  @media print {
+    body { background: white; color: black; font-size: 10px; }
+    .nav-tabs, .header { display: none; }
+    .section { display: block !important; }
+    .card { border: 1px solid #ccc; background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-badge">ЕМТИХАН КОНСПЕКТІ</div>
+  </div>
+  <div>
+    <h1>Білім беруді бағалау</h1>
+    <p>Теориялық сұрақтар + практика · 90 сұрақ бойынша жинақ</p>
+  </div>
+</div>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="showTab('terms')">🔑 Негізгі ұғымдар</button>
+  <button class="tab-btn" onclick="showTab('types')">📊 Бағалау түрлері</button>
+  <button class="tab-btn" onclick="showTab('bloom')">🧠 Таксономия</button>
+  <button class="tab-btn" onclick="showTab('principles')">⚖️ Принциптер</button>
+  <button class="tab-btn" onclick="showTab('tools')">🛠️ Құралдар</button>
+  <button class="tab-btn" onclick="showTab('analytics')">📈 Аналитика</button>
+  <button class="tab-btn" onclick="showTab('formulas')">🔢 Формулалар</button>
+  <button class="tab-btn" onclick="showTab('practice')">💻 Практика</button>
+</div>
+
+<!-- TAB 1: НЕГІЗГІ ҰҒЫМДАР -->
+<div id="tab-terms" class="section active">
+<div class="container">
+
+  <div class="section-title">Ең маңызды анықтамалар</div>
+
+  <div class="key-term">
+    <div class="term">Бағалау</div>
+    <div class="def">Оқушылардың білімін өлшеу, салыстыру және сапасын анықтау жүйесі</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Оқу нәтижесі</div>
+    <div class="def">Оқу соңында оқушының не білетінін, не істей алатынын сипаттайтын өлшенетін жетістік (SMART принципі)</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Критерий</div>
+    <div class="def">Оқу нәтижесін өлшеуге арналған нақты, өлшенетін белгілер жиынтығы</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Дескриптор</div>
+    <div class="def">Әр критерий бойынша нақты орындалу деңгейін сипаттайтын көрсеткіштер</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Валидтілік</div>
+    <div class="def">Бағалау нақты сол нәтижені өлшеуі керек (код жазуды тестпен емес, нақты кодпен)</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Сенімділік</div>
+    <div class="def">Бірдей жағдайда бірдей нәтиже беруі (2 мұғалім бірдей балл)</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Мониторинг</div>
+    <div class="def">Білім беру процесінің жай-күйін үздіксіз бақылау, өлшеу, талдау</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Педагогикалық тест</div>
+    <div class="def">Стандартталған, уақытпен шектелген тапсырмалар жиынтығы</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Кері байланыс</div>
+    <div class="def">Оқушыға «не білемін, қайда қателестім, не істеу керек» туралы нақты ақпарат</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Білім беру аналитикасы</div>
+    <div class="def">Деректерді жинау, өлшеу, талдау арқылы оқытуды оңтайландыру</div>
+  </div>
+
+  <div class="section-title">Бағалаудың 3 теориялық тұғыры</div>
+
+  <div class="grid-3">
+    <div class="card card-accent">
+      <h3>Бихевиористік</h3>
+      <p>Ынталандыру ↔ реакция байланысы</p>
+      <p>Дұрыс жауап = жоғары балл</p>
+      <div class="tag">Скиннер</div>
+    </div>
+    <div class="card card-orange">
+      <h3>Когнитивистік</h3>
+      <p>Ойлау процестерін, метатанымды бағалайды</p>
+      <p>Эссе, жоба жұмысы</p>
+      <div class="tag orange">Пиаже, Выготский</div>
+    </div>
+    <div class="card card-green">
+      <h3>Конструктивистік</h3>
+      <p>Бағалау — білімді құру процесінің бөлігі</p>
+      <p>Өзін-өзі бағалау маңызды</p>
+      <div class="tag green">Рефлексия</div>
+    </div>
+  </div>
+
+  <div class="section-title">Бағалаудың рөлдері</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>Диагностикалық</h3>
+      <p>Оқушылардың білім деңгейін анықтау (кіріс тест)</p>
+    </div>
+    <div class="card card-orange">
+      <h3>Басқарушылық</h3>
+      <p>Оқу процесін бағыттау, қайта түсіндіру немесе жеделдету</p>
+    </div>
+    <div class="card card-green">
+      <h3>Мотивациялық</h3>
+      <p>Ішкі мотивацияны арттыру (формативті), ынталандыру</p>
+    </div>
+    <div class="card">
+      <h3>Дамытушылық</h3>
+      <p>Рефлексия арқылы өзін-өзі тану, күшті/әлсіз жақ</p>
+    </div>
+    <div class="card card-orange">
+      <h3>Сапа бақылауы</h3>
+      <p>Мектеп, аудан, мемлекет деңгейінде мониторинг</p>
+    </div>
+    <div class="card card-green">
+      <h3>Әлеуметтік</h3>
+      <p>Сертификаттау, ЖОО-ға түсу, грант үшін негіз</p>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 2: БАҒАЛАУ ТҮРЛЕРІ -->
+<div id="tab-types" class="section">
+<div class="container">
+
+  <div class="section-title">Қалыптастырушы vs Жиынтық</div>
+
+  <div class="vs-box">
+    <div class="vs-left">
+      <h4>ҚАЛЫПТАСТЫРУШЫ (Формативті)</h4>
+      <ul>
+        <li>Оқу барысында, үздіксіз</li>
+        <li><strong>Баға қойылмайды</strong></li>
+        <li>Жедел кері байланыс</li>
+        <li>Стресс төмен</li>
+        <li>Оқушы белсенді</li>
+        <li>Мысал: Exit ticket, Kahoot, жұптық жұмыс</li>
+      </ul>
+    </div>
+    <div class="vs-center">VS</div>
+    <div class="vs-right">
+      <h4>ЖИЫНТЫҚ (Суммативті)</h4>
+      <ul>
+        <li>Кезең соңында (тоқсан, жыл)</li>
+        <li><em>Баға міндетті</em></li>
+        <li>Кеш кері байланыс</li>
+        <li>Стресс жоғары</li>
+        <li>Оқушы орындаушы</li>
+        <li>Мысал: БЖБ, ТЖБ, ҰБТ</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="alert">
+    <div class="alert-title">⚡ МАҢЫЗДЫ</div>
+    Екеуі бірін-бірі толықтырады. Қалыптастырушысыз жиынтық бағалау нашар нәтиже береді.
+  </div>
+
+  <div class="section-title">Қалыптастырушы бағалаудың 8 артықшылығы</div>
+
+  <div class="grid-2">
+    <div class="card card-green">
+      <h3>Артықшылықтары</h3>
+      <ul>
+        <li>Дамытушылық сипаты — қателерді уақытында түзету</li>
+        <li>Мотивацияны арттырады — ішкі мотивация</li>
+        <li>Жедел кері байланыс</li>
+        <li>Стресс деңгейі <strong>төмен</strong></li>
+        <li>Өзін-өзі бағалауды дамытады</li>
+        <li>Оқыту мен бағалаудың бірлігі</li>
+        <li>Барлық оқушыларды қамтиды</li>
+        <li>Сыныптағы атмосфераны жақсартады</li>
+      </ul>
+    </div>
+    <div class="card card-orange">
+      <h3>Жиынтықтың кемшіліктері</h3>
+      <ul>
+        <li>Кері байланыс кеш беріледі</li>
+        <li>Стресс пен мазасыздық жоғары</li>
+        <li>Жаттауға итермелейді</li>
+        <li>Бір өлшемді (тек тест)</li>
+        <li>«Бір сәттік» көрсеткіш</li>
+        <li>Мотивацияны төмендетуі мүмкін</li>
+        <li>Плагиат, алдау мүмкіндігі</li>
+        <li>Шынайы дағдыны өлшемейді</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Қалыптастырушы бағалаудың циклі</div>
+
+  <div class="card card-accent">
+    <h3>6 қадам</h3>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+      <div class="level-badge level-1">① Мақсат анықтау</div>
+      <div class="level-badge level-1">② Критерийлер</div>
+      <div class="level-badge level-1">③ Тапсырма</div>
+      <div class="level-badge level-1">④ Кері байланыс</div>
+      <div class="level-badge level-1">⑤ Түзету</div>
+      <div class="level-badge level-1">⑥ Жоспарлау</div>
+    </div>
+  </div>
+
+  <div class="section-title">Бағалаудың кіші түрлері</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>Түрі</th>
+      <th>Мақсаты</th>
+      <th>Уақыты</th>
+      <th>Мысал</th>
+    </tr>
+    <tr>
+      <td><strong>Диагностикалық</strong></td>
+      <td>Бастапқы деңгейді анықтау</td>
+      <td>Бастапқы</td>
+      <td>Кіріс тест</td>
+    </tr>
+    <tr>
+      <td><strong>Қалыптастырушы</strong></td>
+      <td>Оқытуды бейімдеу</td>
+      <td>Процесте</td>
+      <td>Exit ticket, Kahoot</td>
+    </tr>
+    <tr>
+      <td><strong>Жиынтық</strong></td>
+      <td>Нәтижені тіркеу</td>
+      <td>Кезең соңы</td>
+      <td>ТЖБ, ҰБТ</td>
+    </tr>
+    <tr>
+      <td><strong>Өзін-өзі бағалау</strong></td>
+      <td>Рефлексия, метатаным</td>
+      <td>Кез келген</td>
+      <td>Рубрика бойынша өзін тексеру</td>
+    </tr>
+    <tr>
+      <td><strong>Өзара бағалау</strong></td>
+      <td>Сыни ойлау дамыту</td>
+      <td>Практикадан кейін</td>
+      <td>Жұптық код тексеру</td>
+    </tr>
+  </table>
+
+</div>
+</div>
+
+<!-- TAB 3: ТАКСОНОМИЯ -->
+<div id="tab-bloom" class="section">
+<div class="container">
+
+  <div class="section-title">Блум таксономиясы — 6 деңгей</div>
+
+  <div class="bloom-row">
+    <div class="bloom-item" style="border-color:#4ade80;">
+      <div class="bloom-num" style="color:#4ade80;">1</div>
+      <div class="bloom-name">БІЛУ</div>
+      <div class="bloom-example" style="color:#4ade80;">Анықтамаларды жатқа айту</div>
+    </div>
+    <div class="bloom-item" style="border-color:#60a5fa;">
+      <div class="bloom-num" style="color:#60a5fa;">2</div>
+      <div class="bloom-name">ТҮСІНУ</div>
+      <div class="bloom-example" style="color:#60a5fa;">Өз сөзімен түсіндіру</div>
+    </div>
+    <div class="bloom-item" style="border-color:#f59e0b;">
+      <div class="bloom-num" style="color:#f59e0b;">3</div>
+      <div class="bloom-name">ҚОЛДАНУ</div>
+      <div class="bloom-example" style="color:#f59e0b;">Жаңа жағдайда пайдалану</div>
+    </div>
+    <div class="bloom-item" style="border-color:#f87171;">
+      <div class="bloom-num" style="color:#f87171;">4</div>
+      <div class="bloom-name">ТАЛДАУ</div>
+      <div class="bloom-example" style="color:#f87171;">Бөліктерге жіктеу</div>
+    </div>
+    <div class="bloom-item" style="border-color:#a78bfa;">
+      <div class="bloom-num" style="color:#a78bfa;">5</div>
+      <div class="bloom-name">ЖИНАҚТАУ</div>
+      <div class="bloom-example" style="color:#a78bfa;">Жоба жасау</div>
+    </div>
+    <div class="bloom-item" style="border-color:#f472b6;">
+      <div class="bloom-num" style="color:#f472b6;">6</div>
+      <div class="bloom-name">БАҒАЛАУ</div>
+      <div class="bloom-example" style="color:#f472b6;">Сыни тұрғыдан талдау</div>
+    </div>
+  </div>
+
+  <div class="section-title">Тапсырма түрлерімен байланысы</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>Деңгей</th>
+      <th>Информатика тапсырмасы</th>
+      <th>Бағалау әдісі</th>
+    </tr>
+    <tr>
+      <td><strong>1 — Білу</strong></td>
+      <td>Python синтаксисін ата, тип атауларын жаз</td>
+      <td>Тест (жабық сұрақ)</td>
+    </tr>
+    <tr>
+      <td><strong>2 — Түсіну</strong></td>
+      <td>For және while айырмасын түсіндір</td>
+      <td>Қысқа жауап, ауызша</td>
+    </tr>
+    <tr>
+      <td><strong>3 — Қолдану</strong></td>
+      <td>Берілген есепті код арқылы шеш</td>
+      <td>Практикалық жұмыс</td>
+    </tr>
+    <tr>
+      <td><strong>4 — Талдау</strong></td>
+      <td>Алгоритмдегі қателерді тап, тиімді/тиімсізді сал.</td>
+      <td>Кодревью, дебаггинг</td>
+    </tr>
+    <tr>
+      <td><strong>5 — Жинақтау</strong></td>
+      <td>Өз бағдарламаңды жаз, веб-сайт жаса</td>
+      <td>Жоба, портфолио</td>
+    </tr>
+    <tr>
+      <td><strong>6 — Бағалау</strong></td>
+      <td>Алгоритмнің тиімділігін бағала, этиканы талда</td>
+      <td>Эссе, презентация</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Оқу нәтижелерінің 3 түрі</div>
+
+  <div class="grid-3">
+    <div class="card card-accent">
+      <h3>Танымдық</h3>
+      <p>Білім, түсінік, талдау</p>
+      <p style="margin-top:6px;color:var(--muted)">Мысалы: Python синтаксисін білу</p>
+    </div>
+    <div class="card card-orange">
+      <h3>Психомоторлық</h3>
+      <p>Дағдылар, нақты әрекеттер</p>
+      <p style="margin-top:6px;color:var(--muted)">Мысалы: компьютерде бағдарлама жазу</p>
+    </div>
+    <div class="card card-green">
+      <h3>Аффективті</h3>
+      <p>Көзқарас, құндылықтар</p>
+      <p style="margin-top:6px;color:var(--muted)">Мысалы: командада жұмыс дағдысы</p>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 4: ПРИНЦИПТЕР -->
+<div id="tab-principles" class="section">
+<div class="container">
+
+  <div class="section-title">Өлшеудің негізгі принциптері</div>
+
+  <div class="grid-2">
+    <div class="card card-accent">
+      <h3>Валидтілік</h3>
+      <p>Дәл сол нәтижені өлшеуі керек</p>
+      <p style="color:var(--muted);margin-top:4px;font-size:11px;">Код дағдысы → код жазу тапсырмасы (тест емес)</p>
+    </div>
+    <div class="card card-orange">
+      <h3>Сенімділік</h3>
+      <p>Қайта тексергенде нәтиже ұқсас болуы</p>
+      <p style="color:var(--muted);margin-top:4px;font-size:11px;">2 мұғалім бір эссеге бірдей балл</p>
+    </div>
+    <div class="card card-green">
+      <h3>Объективтілік</h3>
+      <p>Бағалаушының жеке қатынасына тәуелсіз</p>
+      <p style="color:var(--muted);margin-top:4px;font-size:11px;">Критерийлер мен дескрипторлар арқылы</p>
+    </div>
+    <div class="card">
+      <h3>Әділдік</h3>
+      <p>Барлық оқушыға бірдей мүмкіндік</p>
+      <p style="color:var(--muted);margin-top:4px;font-size:11px;">Мүмкіндігі шектеулі балаларға бейімдеу</p>
+    </div>
+    <div class="card card-accent">
+      <h3>Жүйелілік</h3>
+      <p>Кіріс → қалыптастырушы → жиынтық</p>
+      <p style="color:var(--muted);margin-top:4px;font-size:11px;">Үздіксіз жүргізіліп отырады</p>
+    </div>
+    <div class="card card-orange">
+      <h3>Ашықтық</h3>
+      <p>Критерийлер оқушыларға алдын ала белгілі</p>
+      <p style="color:var(--muted);margin-top:4px;font-size:11px;">Сюрприз жоқ</p>
+    </div>
+  </div>
+
+  <div class="section-title">Бағалаудағы қателіктер</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>Қателік түрі</th>
+      <th>Сипаттамасы</th>
+      <th>Шешімі</th>
+    </tr>
+    <tr>
+      <td><strong>Хало-эффект</strong></td>
+      <td>Бір жақсы қасиет → барлығы жақсы деп бағалау</td>
+      <td>Рубрика, анонимді тексеру</td>
+    </tr>
+    <tr>
+      <td><strong>Орталық тенденция</strong></td>
+      <td>Ең жоғары/төмен баға сирек → барлығы орташа</td>
+      <td>Нақты дескрипторлар</td>
+    </tr>
+    <tr>
+      <td><strong>Тәртіптік әсер</strong></td>
+      <td>Жақсы ұстаған → жоғары баға</td>
+      <td>Анонимді тексеру</td>
+    </tr>
+    <tr>
+      <td><strong>Жұмсақтық/қатаңдық</strong></td>
+      <td>Бір мұғалім жоғары, екіншісі төмен</td>
+      <td>Кросс-чекинг, рубрика</td>
+    </tr>
+    <tr>
+      <td><strong>Кіші үлгіде жалпылау</strong></td>
+      <td>5 оқушы бойынша → бүкіл сынып туралы қорытынды</td>
+      <td>Үлгіні ұлғайту</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Қателіктерді азайту жолдары</div>
+
+  <div class="card card-green">
+    <h3>4 тиімді тәсіл</h3>
+    <ul style="margin-top:8px;">
+      <li>Рубрикалар мен дескрипторлар қолдану</li>
+      <li>Бірнеше мұғалімнің тексеруі (кросс-чекинг)</li>
+      <li>Статистикалық талдау (қиындық, дискриминативтілік)</li>
+      <li>Бағалау критерийлерін оқушыларға алдын ала беру</li>
+    </ul>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 5: ҚҰРАЛДАР -->
+<div id="tab-tools" class="section">
+<div class="container">
+
+  <div class="section-title">Бағалау әдістері мен құралдары</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>Әдіс</th>
+      <th>Артықшылығы</th>
+      <th>Кемшілігі</th>
+      <th>Қолданысы</th>
+    </tr>
+    <tr>
+      <td><strong>Тест (жабық)</strong></td>
+      <td>Жылдам, объективті</td>
+      <td>Тереңдікті тексермейді</td>
+      <td>Білу/түсіну деңгейі</td>
+    </tr>
+    <tr>
+      <td><strong>Практикалық</strong></td>
+      <td>Нақты дағды, валидті</td>
+      <td>Уақытты алады</td>
+      <td>Бағдарламалау</td>
+    </tr>
+    <tr>
+      <td><strong>Жоба</strong></td>
+      <td>Шығармашылық, күрделі дағды</td>
+      <td>Бағалау күрделі</td>
+      <td>Жоғары деңгей</td>
+    </tr>
+    <tr>
+      <td><strong>Эссе</strong></td>
+      <td>Талдау, жинақтау</td>
+      <td>Субъективті</td>
+      <td>Этика, концепция</td>
+    </tr>
+    <tr>
+      <td><strong>Портфолио</strong></td>
+      <td>Даму динамикасы</td>
+      <td>Уақытты алады</td>
+      <td>GitHub репо</td>
+    </tr>
+    <tr>
+      <td><strong>Ауызша сұрау</strong></td>
+      <td>Терең түсінік</td>
+      <td>Уақытты алады</td>
+      <td>Жеке бағалау</td>
+    </tr>
+    <tr>
+      <td><strong>Өзін-өзі</strong></td>
+      <td>Метатаным, рефлексия</td>
+      <td>Субъективті</td>
+      <td>Формативтімен</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Рубрика vs Дескриптор</div>
+
+  <div class="vs-box">
+    <div class="vs-left">
+      <h4>РУБРИКА</h4>
+      <ul>
+        <li>Бірнеше критерийден тұратын кесте</li>
+        <li>Әр деңгейге сипаттама береді</li>
+        <li>Мысалы: синтаксис, логика, тиімділік</li>
+        <li>Объективтілікті арттырады</li>
+      </ul>
+    </div>
+    <div class="vs-center">+</div>
+    <div class="vs-right">
+      <h4>ДЕСКРИПТОР</h4>
+      <ul>
+        <li>Рубриканың ішіндегі нақты балл сипаттамасы</li>
+        <li>«Дәл не істеді?» деген сұраққа жауап</li>
+        <li>Мысалы: 5 балл → def, атау, (), : бар</li>
+        <li>Анықтық пен ашықтықты арттырады</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Тест тапсырмаларына қойылатын талаптар</div>
+
+  <div class="grid-2">
+    <div class="card card-accent">
+      <h3>✓ Болуы керек</h3>
+      <ul>
+        <li>Нақты (бір мағыналы)</li>
+        <li>Қысқа (артық сөз жоқ)</li>
+        <li>Оқу мақсатына сәйкес</li>
+        <li>Бір ғана дұрыс жауап</li>
+        <li>Тәуелсіз (басқа сұрақтан нұсқау жоқ)</li>
+      </ul>
+    </div>
+    <div class="card card-orange">
+      <h3>✗ Болмауы керек</h3>
+      <ul>
+        <li>Екі мағыналы сөздер</li>
+        <li>«Әдетте» деген жалпы сөздер</li>
+        <li>Абсурдты дистракторлар</li>
+        <li>Тым оңай (p>0.9) немесе тым қиын (p&lt;0.2)</li>
+        <li>Екі дұрыс жауап</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 6: АНАЛИТИКА -->
+<div id="tab-analytics" class="section">
+<div class="container">
+
+  <div class="section-title">Білім беру аналитикасы — 4 деңгей</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>Деңгей</th>
+      <th>Сұрақ</th>
+      <th>Мысал</th>
+    </tr>
+    <tr>
+      <td><strong>1. Сипаттамалы</strong></td>
+      <td>Не болды?</td>
+      <td>Орташа балл = 67%</td>
+    </tr>
+    <tr>
+      <td><strong>2. Диагностикалық</strong></td>
+      <td>Неліктен?</td>
+      <td>Циклдерді түсінбеген</td>
+    </tr>
+    <tr>
+      <td><strong>3. Болжамды</strong></td>
+      <td>Не болады?</td>
+      <td>15 оқушы 50%-дан төмен алады</td>
+    </tr>
+    <tr>
+      <td><strong>4. Прескриптивті</strong></td>
+      <td>Не істеу керек?</td>
+      <td>Қосымша сабақ өткізу</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Деректер жинау технологиялары</div>
+
+  <div class="grid-2">
+    <div class="card card-accent">
+      <h3>Цифрлық</h3>
+      <ul>
+        <li>Электронды журналдар (Kundelik)</li>
+        <li>LMS (Google Classroom, Moodle)</li>
+        <li>Онлайн тестілеу (Google Forms)</li>
+        <li>Платформалар (Stepik, LeetCode)</li>
+        <li>LMS лог файлдары</li>
+      </ul>
+    </div>
+    <div class="card card-orange">
+      <h3>Дәстүрлі</h3>
+      <ul>
+        <li>Жазбаша тесттер</li>
+        <li>Бақылау парақтары</li>
+        <li>Класс журналдары</li>
+        <li>Анкеталар</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Мониторинг түрлері</div>
+
+  <div class="card card-green">
+    <h3>Мониторинг рөлдері мен түрлері</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <span class="tag green">Фронтальды</span>
+      <span class="tag green">Таңдамалы</span>
+      <span class="tag green">Үздіксіз</span>
+      <span class="tag green">Мерзімді</span>
+      <span class="tag">Ақпараттық рөл</span>
+      <span class="tag">Диагностикалық рөл</span>
+      <span class="tag">Басқарушылық рөл</span>
+      <span class="tag">Болжау рөлі</span>
+    </div>
+  </div>
+
+  <div class="section-title">Халықаралық бағалау жүйелері</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>Жүйе</th>
+      <th>Жас</th>
+      <th>Бағалайды</th>
+    </tr>
+    <tr>
+      <td><strong>PISA</strong></td>
+      <td>15 жас</td>
+      <td>Функционалдық сауаттылық (оқу, математика, жарат.)</td>
+    </tr>
+    <tr>
+      <td><strong>TIMSS</strong></td>
+      <td>4, 8 сынып</td>
+      <td>Математика, жаратылыстану</td>
+    </tr>
+    <tr>
+      <td><strong>PIRLS</strong></td>
+      <td>4 сынып</td>
+      <td>Оқу сауаттылығы</td>
+    </tr>
+    <tr>
+      <td><strong>ҰБТ (ҚЗ)</strong></td>
+      <td>11 сынып</td>
+      <td>ЖОО-ға түсу</td>
+    </tr>
+  </table>
+
+  <div class="section-title">Деректер этикасы — 5 негізгі мәселе</div>
+
+  <div class="grid-2">
+    <div class="card card-orange">
+      <h3>Мәселелер</h3>
+      <ul>
+        <li><strong>Құпиялылық</strong> — рұқсатсыз қолжетімділік жоқ</li>
+        <li><strong>Анонимділік</strong> — жарияланса, оқушы танылмауы</li>
+        <li><strong>Келісім</strong> — ата-аналар мен оқушы хабардар</li>
+        <li><strong>Теріс пайдалану</strong> — «нашарлар тізімі» жасауға болмайды</li>
+        <li><strong>Кибер қауіпсіздік</strong> — хакерлер</li>
+      </ul>
+    </div>
+    <div class="card card-green">
+      <h3>Шешімдер</h3>
+      <ul>
+        <li>Тек қажетті деректерді жинау</li>
+        <li>Деректерді шифрлау</li>
+        <li>Рөл бойынша қолжетімділік</li>
+        <li>5 жылдан артық сақтамау</li>
+        <li>Келісімге қол қойғызу</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 7: ФОРМУЛАЛАР -->
+<div id="tab-formulas" class="section">
+<div class="container">
+
+  <div class="section-title">Есептеу формулалары</div>
+
+  <div class="formula-box">
+    <div class="formula-label">ҚИЫНДЫҚ ИНДЕКСІ</div>
+    <div class="formula">p = R / N</div>
+    <div class="formula-desc">R — дұрыс жауап берген оқушылар саны | N — барлық оқушылар | Оптималды: p = 0.5</div>
+  </div>
+
+  <div class="formula-box" style="border-color:var(--accent2);">
+    <div class="formula-label">ОРТА БАЛЛ</div>
+    <div class="formula" style="color:var(--accent2);">X̄ = Σx / N</div>
+    <div class="formula-desc">Барлық баллдар қосындысы / оқушылар саны</div>
+  </div>
+
+  <div class="formula-box" style="border-color:var(--accent3);">
+    <div class="formula-label">ҮЛГЕРІМ ПАЙЫЗЫ</div>
+    <div class="formula" style="color:var(--accent3);">Үлгерім = (≥3 алғандар / N) × 100%</div>
+    <div class="formula-desc">«3», «4», «5» бағасы алғандар / барлық оқушылар</div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-label">САПА ПАЙЫЗЫ</div>
+    <div class="formula">Сапа = (≥4 алғандар / N) × 100%</div>
+    <div class="formula-desc">«4» және «5» бағасы алғандар / барлық оқушылар</div>
+  </div>
+
+  <div class="section-title">Қиындық деңгейлері кестесі</div>
+
+  <table class="comparison-table">
+    <tr>
+      <th>p мәні</th>
+      <th>Деңгей</th>
+      <th>Шешімі</th>
+    </tr>
+    <tr><td>p > 0.9</td><td style="color:#4ade80;">Тым оңай</td><td>Алып тастау немесе күрделету</td></tr>
+    <tr><td>0.7 – 0.9</td><td style="color:#60a5fa;">Оңай</td><td>Жеңіл тапсырма ретінде қалдыру</td></tr>
+    <tr><td>0.4 – 0.7</td><td style="color:#f59e0b;">Орташа</td><td>⭐ Оптималды, сол күйінде қалдыру</td></tr>
+    <tr><td>0.2 – 0.4</td><td style="color:#f87171;">Қиын</td><td>Талдау, мүмкін оқытуды жақсарту</td></tr>
+    <tr><td>p < 0.2</td><td style="color:#ef4444;">Тым қиын</td><td>Алып тастау немесе жеңілдету</td></tr>
+  </table>
+
+  <div class="section-title">Есеп мысалы</div>
+
+  <div class="card card-accent">
+    <h3>Есеп шешу үлгісі</h3>
+    <p style="margin:8px 0 4px;">10 оқушы: 3, 4, 5, 3, 4, 5, 2, 3, 4, 5</p>
+    <div class="code-snippet">Қосынды = 3+4+5+3+4+5+2+3+4+5 = 38
+Орта балл = 38 / 10 = 3.8
+
+«4» мен «5» = 6 оқушы
+Сапа = (6/10) × 100% = 60%
+
+«3», «4», «5» = 9 оқушы
+Үлгерім = (9/10) × 100% = 90%
+
+p мысалы: 8 оқушы дұрыс, N=20
+p = 8/20 = 0.4 → қиын деңгей</div>
+  </div>
+
+  <div class="section-title">Қарапайым болжау формуласы</div>
+
+  <div class="formula-box" style="border-color:var(--accent3);">
+    <div class="formula-label">САЛМАҚТЫ ОРТАША (болжам)</div>
+    <div class="formula" style="color:var(--accent3); font-size:14px;">Болжам = БЖБ×0.5 + Үй×0.3 + Қатысу×0.2</div>
+    <div class="formula-desc">Мысал: БЖБ=0.65, Үй=0.70, Қатысу=0.90 → 0.65×0.5+0.70×0.3+0.90×0.2 = 0.325+0.21+0.18 = 71.5%</div>
+  </div>
+
+</div>
+</div>
+
+<!-- TAB 8: ПРАКТИКА -->
+<div id="tab-practice" class="section">
+<div class="container">
+
+  <div class="section-title">Бағалау жүйесін жобалау — 9 кезең</div>
+
+  <div class="card card-accent">
+    <h3>Кезеңдер</h3>
+    <div style="display:flex;flex-direction:column;gap:4px;margin-top:8px;">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-1">①</span><span>Мақсаттарды анықтау</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-1">②</span><span>Мазмұнды анықтау (Bloom)</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-1">③</span><span>Критерийлер мен дескрипторлар</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-1">④</span><span>Құралдарды таңдау/жасау</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-2">⑤</span><span>Пилоттау (сынақ)</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-2">⑥</span><span>Түзетулер енгізу</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-3">⑦</span><span>Енгізу</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-3">⑧</span><span>Мониторинг және кері байланыс</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span class="level-badge level-3">⑨</span><span>Жаңарту (цикл)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">Информатика бағалауының ерекшеліктері</div>
+
+  <div class="grid-2">
+    <div class="card card-green">
+      <h3>Ерекшеліктері</h3>
+      <ul>
+        <li>Практикалық дағдылар басым (код жазу)</li>
+        <li>Автоматтандырылған тексеру мүмкін (юнит-тесттер)</li>
+        <li>Алгоритмдік ойлауды бағалау</li>
+        <li>Портфолио маңызды (GitHub)</li>
+        <li>Бірнеше дұрыс жауап мүмкін</li>
+        <li>Код сапасы: синтаксис, логика, тиімділік, оқылуы</li>
+      </ul>
+    </div>
+    <div class="card card-orange">
+      <h3>Автобағалаудың ерекшеліктері</h3>
+      <ul>
+        <li>Юнит-тесттермен тексеру</li>
+        <li>Linker (PEP8 стилі)</li>
+        <li>Плагиатты анықтау</li>
+        <li>Тиімсіз алгоритм → баллды төмендету</li>
+        <li><em>Кемшілік:</em> hardcode жасауы мүмкін</li>
+        <li>Адам бақылауымен бірге қолдану керек</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">Жиі сұралатын практикалық сұрақтар</div>
+
+  <div class="key-term">
+    <div class="term">Тапсырма қиындығы</div>
+    <div class="def">p = R/N есептеу. Мысалы: 8/20 = 0.4 → қиын деңгей</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Рубрика жасау</div>
+    <div class="def">Критерийлер + деңгейлер + балл. Python циклдері: синтаксис (5), логика (2), тиімділік (2), оқылуы (1)</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Қалыптастырушы жоспар</div>
+    <div class="def">Exit ticket, сигналдар, Kahoot, жұптық жұмыс, өзін-өзі бағалау парағы</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Нашар тапсырманы жақсарту</div>
+    <div class="def">Нақтылау, контекст, бір дұрыс жауап, қысқарту, ақылға қонымды дистракторлар</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Деректерге негіз. шешім</div>
+    <div class="def">Мақсат → деректер → талдау → интерпретация → шешім → мониторинг</div>
+  </div>
+  <div class="key-term">
+    <div class="term">Орта балл + сапа</div>
+    <div class="def">3,4,5,3,4,5,2,3,4,5 → орта=3.8, сапа=60%, үлгерім=90%</div>
+  </div>
+
+  <div class="section-title">CIPP моделі — сапа бағалауы</div>
+
+  <div class="grid-2">
+    <div class="card card-accent">
+      <h3>C — Context (Контекст)</h3>
+      <p>Оқу ортасының қолайлылығы</p>
+      <p style="color:var(--muted);font-size:11px;">Мысалы: психологтың болуы, қауіпсіздік</p>
+    </div>
+    <div class="card card-orange">
+      <h3>I — Input (Кіріс)</h3>
+      <p>Ресурстардың жеткіліктілігі</p>
+      <p style="color:var(--muted);font-size:11px;">Мысалы: компьютерлер, мұғалімдердің біліктілігі</p>
+    </div>
+    <div class="card card-green">
+      <h3>P — Process (Процесс)</h3>
+      <p>Оқыту мен бағалаудың тиімділігі</p>
+      <p style="color:var(--muted);font-size:11px;">Мысалы: формативті бағалауды қолдану</p>
+    </div>
+    <div class="card">
+      <h3>P — Product (Өнім)</h3>
+      <p>Нәтижелер</p>
+      <p style="color:var(--muted);font-size:11px;">Мысалы: ТЖБ, ҰБТ, PISA нәтижелері</p>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+function showTab(tabName) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tabName).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
